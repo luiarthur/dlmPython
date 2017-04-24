@@ -104,10 +104,9 @@ class dlm_uni_df(dlm):
             Q = Ft * R * F + last_param.S
             out[i] = (a, R, f, Q)
             
-        ret = map(lambda x: {'f': x[2][0,0], 
-                             'Q': x[3][0,0], 
-                             'n': last_param.n}, out)
-        return ret
+        out_f = map(lambda x: x[2][0,0], out)
+        out_Q = map(lambda x: x[3][0,0], out)
+        return {'f': out_f, 'Q': out_Q, 'n': last_param.n}
 
     def get_ci(self, f, Q, n, alpha=.05):
         assert len(f) == len(Q), "required: len(f) == len(Q)"

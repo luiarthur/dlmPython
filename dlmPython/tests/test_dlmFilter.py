@@ -86,5 +86,5 @@ class TestDLM(TestCase):
         fc = c.forecast(filt, nAhead)
         print
         print 'at n:    ' + (y[-1] + 5).__str__()
-        print 'predict: ' + fc[-1]['f'].__str__()
+        print 'predict: ' + fc['f'][-1].__str__()
 
