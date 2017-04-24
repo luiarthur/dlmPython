@@ -30,11 +30,11 @@ import scipy.stats
 c = dlm_uni_df(
         F=lego.E2(2), G=lego.J(2), V=1, 
         delta=.95)
-n = 30
-nAhead = 30
+n = 20
+nAhead = 20
 idx = np.linspace(1, n, n)
 
-y = idx + np.random.normal(0, .1, n)
+y = idx + np.random.normal(0, 1, n)
 init = param.uni_df(
         m=np.asmatrix(np.zeros((2,1))), 
         C=np.eye(2))
