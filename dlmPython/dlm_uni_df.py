@@ -2,6 +2,7 @@ from .dlm import dlm
 from .lego import join
 from .param import uni_df as param_uni_df
 from scipy.linalg import block_diag
+from scipt.stats import t as t_dist
 import numpy as np
 
 class dlm_uni_df(dlm):
@@ -103,6 +104,19 @@ class dlm_uni_df(dlm):
             Q = Ft * R * F + last_param.S
             out[i] = (a, R, f, Q)
             
-        return map(lambda x: (x[2][0,0], x[3][0,0]), out)
+        ret = map(lambda x: {'f': x[2][0,0], 
+                             'Q': x[3][0,0], 
+                             'n': last_param.n}, out)
+        return ret
 
+    def get_ci(self, f, Q, n, alpha=.05):
+        assert len(f) == len(Q), "required: len(f) == len(Q)"
+        n = len(f)
+        t_lower = t_dist(df=n-1).ppf(alpha/2)
+        t_upper = t_dist(df=n-1).ppf(1 - alpha/2)
+
+        lower = [f[i] + np.sqrt(Q[i]) * t_lower for i in range(n)]
+        upper = [f[i] + np.sqrt(Q[i]) * t_upper for i in range(n)]
+
+        return {'lower': lower, 'upper': upper}
 
