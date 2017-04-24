@@ -110,7 +110,6 @@ class dlm_uni_df(dlm):
 
     def get_ci(self, f, Q, n, alpha=.05):
         assert len(f) == len(Q), "required: len(f) == len(Q)"
-        n = len(f)
         t_lower = t_dist(df=n-1).ppf(alpha/2)
         t_upper = t_dist(df=n-1).ppf(1 - alpha/2)
 
