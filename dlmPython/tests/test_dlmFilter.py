@@ -67,7 +67,24 @@ class TestDLM(TestCase):
         init = param.uni_df(
                 m=np.asmatrix(np.zeros((2,1))), 
                 C=np.eye(2))
-        out = c.filter(y, init)
-        print out[-1].f
+        filt = c.filter(y, init)
+        print
+        print y[-1]
+        print filt[-1].f
 
+    def test_dlm_uni_df_forecast(self):
+        c = dlm_uni_df(
+                F=lego.E2(2), G=lego.J(2), V=1, 
+                delta=.95)
+        n = 30
+        nAhead = 5
+        y = np.array(range(n)) + np.random.normal(0, .1, n)
+        init = param.uni_df(
+                m=np.asmatrix(np.zeros((2,1))), 
+                C=np.eye(2))
+        filt = c.filter(y, init)
+        fc = c.forecast(filt, nAhead)
+        print
+        print 'at n:    ' + (y[-1] + 5).__str__()
+        print 'predict: ' + fc[-1][0].__str__()
 

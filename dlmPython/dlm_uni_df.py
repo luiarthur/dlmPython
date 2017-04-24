@@ -73,14 +73,36 @@ class dlm_uni_df(dlm):
             f = (Ft * a)[0,0]
             Q = (Ft * R * F + prev.S)[0,0]
             e = y[i] - f
-            S = prev.S + prev.S / n * (e*e/Q-1)
-            A = R * self.F / Q
+            S = prev.S + prev.S / n * (e*e / Q - 1)
+            A = R * F / Q
             m = a + A*e
-            C = S / prev.S * (R - A*A.transpose()*Q)
+            C = S / prev.S * (R - A*A.transpose() * Q)
 
             out[i] = param_uni_df(m=m,C=C,a=a,R=R,f=f,Q=Q,n=n,S=S)
 
         return out
 
-    def forecast():
-        pass
+    def forecast(self, filt, nAhead=1):
+
+        last_param = filt[-1]
+        init = (last_param.m, last_param.C, 
+                last_param.f, last_param.Q)
+
+        G = self.G
+        Gt = G.transpose()
+        Ft = np.asmatrix(self.F)
+        F = Ft.transpose()
+
+        out = [None] * nAhead
+        for i in xrange(nAhead):
+            prev = out[i-1] if i > 0 else init
+            (prev_a, prev_R, prev_f, prev_Q) = prev
+            a = G * prev_a
+            R = G * prev_R * Gt + self.__compute_W__(prev_R)
+            f = Ft * a
+            Q = Ft * R * F + last_param.S
+            out[i] = (a, R, f, Q)
+            
+        return map(lambda x: (x[2], x[3]), out)
+
+
