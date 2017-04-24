@@ -103,6 +103,6 @@ class dlm_uni_df(dlm):
             Q = Ft * R * F + last_param.S
             out[i] = (a, R, f, Q)
             
-        return map(lambda x: (x[2], x[3]), out)
+        return map(lambda x: (x[2][0,0], x[3][0,0]), out)
 
 
