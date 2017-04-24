@@ -113,8 +113,10 @@ class dlm_uni_df(dlm):
         t_lower = t_dist(df=n-1).ppf(alpha/2)
         t_upper = t_dist(df=n-1).ppf(1 - alpha/2)
 
-        lower = [f[i] + np.sqrt(Q[i]) * t_lower for i in range(n)]
-        upper = [f[i] + np.sqrt(Q[i]) * t_upper for i in range(n)]
+        N = len(f)
+
+        lower = [f[i] + np.sqrt(Q[i]) * t_lower for i in range(N)]
+        upper = [f[i] + np.sqrt(Q[i]) * t_upper for i in range(N)]
 
         return {'lower': lower, 'upper': upper}
 
