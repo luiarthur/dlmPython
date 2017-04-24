@@ -2,7 +2,7 @@ from .dlm import dlm
 from .lego import join
 from .param import uni_df as param_uni_df
 from scipy.linalg import block_diag
-from scipt.stats import t as t_dist
+from scipy.stats import t as t_dist
 import numpy as np
 
 class dlm_uni_df(dlm):
