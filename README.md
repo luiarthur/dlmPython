@@ -107,6 +107,8 @@ plt.show()
 #plt.savefig('img/linear.png')
 ```
 
+![Linear Trend DLM](img/linear.png)
+
 
 # Demo of 2-nd Order Polynomial Trend
 
@@ -123,7 +125,7 @@ np.random.seed(2404)
 n = 20
 nAhead = 10
 idx = np.linspace(1, n, n)
-y = idx**2 + np.random.normal(10, 1, n)
+y = idx**2 + np.random.normal(10, 10, n)
 
 # plot data (just for fun)
 plt.plot(idx, y, 'm*')
@@ -177,6 +179,8 @@ legend = plt.legend(loc='lower right')
 plt.show()
 #plt.savefig('img/quad.png')
 ```
+
+![Quadratic Trend DLM](img/quad.png)
 
 
 
