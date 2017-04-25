@@ -104,6 +104,7 @@ plt.plot(idx, one_step_f, 'b--', label='One-step-Ahead')
 plt.xlabel('time')
 legend = plt.legend(loc='lower right')
 plt.show()
+#plt.savefig('img/linear.png')
 ```
 
 
@@ -174,6 +175,7 @@ plt.plot(idx, one_step_f, 'b--', label='One-step-Ahead')
 plt.xlabel('time')
 legend = plt.legend(loc='lower right')
 plt.show()
+#plt.savefig('img/quad.png')
 ```
 
 
