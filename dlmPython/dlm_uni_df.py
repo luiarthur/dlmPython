@@ -7,11 +7,10 @@ import numpy as np
 
 class dlm_uni_df(dlm):
 
-    def __init__(self, F, G, V, dim=None, delta=0.95):
+    def __init__(self, F, G, dim=None, delta=0.95):
         p = G.shape[0] if dim is None else dim
         self.F = F
         self.G = G
-        self.V = V
         self.dim = p
         self.delta = delta
         num = [int, float]
@@ -29,17 +28,15 @@ class dlm_uni_df(dlm):
     def __str__(self):
         return "F:\n" + self.F.__str__() + "\n\n" + \
                "G:\n" + self.G.__str__() + "\n\n" + \
-               "V:\n" + self.V.__str__() + "\n\n" + \
                "delta:\n" + self.delta.__str__() + "\n\n" + \
                "dim:\n" + self.dim.__str__()
 
     def __add__(self, other):
         F = np.concatenate( (self.F, other.F) )
         G = block_diag(self.G, other.G)
-        V = self.V + other.V
         dim = join(self.dim, other.dim)
         delta = join(self.delta, other.delta)
-        return dlm_uni_df(F=F, G=G, V=V, dim=dim, delta=delta)
+        return dlm_uni_df(F=F, G=G, dim=dim, delta=delta)
 
     # Compute W matrix based on previous C matrix
     def __compute_W__(self, prev_C):
@@ -110,13 +107,13 @@ class dlm_uni_df(dlm):
 
     def get_ci(self, f, Q, n, alpha=.05):
         assert len(f) == len(Q), "required: len(f) == len(Q)"
-        t_lower = t_dist(df=n-1).ppf(alpha/2)
-        t_upper = t_dist(df=n-1).ppf(1 - alpha/2)
 
-        N = len(f)
+        len_f = len(f)
 
-        lower = [f[i] + np.sqrt(Q[i]) * t_lower for i in range(N)]
-        upper = [f[i] + np.sqrt(Q[i]) * t_upper for i in range(N)]
+        lower = [f[i] + np.sqrt(Q[i]) * t_dist(df=n[i]-1).ppf(alpha/2) 
+                 for i in range(len_f)]
+        upper = [f[i] + np.sqrt(Q[i]) * t_dist(df=n[i]-1).ppf(1 - alpha/2) 
+                 for i in range(len_f)]
 
         return {'lower': lower, 'upper': upper}
 

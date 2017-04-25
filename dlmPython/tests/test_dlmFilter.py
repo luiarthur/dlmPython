@@ -27,8 +27,8 @@ class TestDLM(TestCase):
 
 
     def test_dlm_add(self):
-        dlm1 = dlm_uni_df(lego.E2(3), lego.J(3), V=1, delta=1)
-        dlm2 = dlm_uni_df(lego.E2(3), lego.J(3), V=1, delta=1)
+        dlm1 = dlm_uni_df(lego.E2(3), lego.J(3), delta=1)
+        dlm2 = dlm_uni_df(lego.E2(3), lego.J(3), delta=1)
         dlm3 = dlm1 + dlm2
 
         # Test F
@@ -40,9 +40,6 @@ class TestDLM(TestCase):
         np.testing.assert_equal( 
                 dlm3.G, 
                 block_diag(lego.J(3), lego.J(3)))
-
-        # Test V
-        self.assertTrue(dlm3.V == dlm1.V + dlm2.V)
 
         # Test dim
         np.testing.assert_equal( 
@@ -59,8 +56,7 @@ class TestDLM(TestCase):
     # LINEAR TREND
     def test_dlm_uni_df_filter(self):
         c = dlm_uni_df(
-                F=lego.E2(2), G=lego.J(2), V=1, 
-                delta=.95)
+                F=lego.E2(2), G=lego.J(2), delta=.95)
         n = 30
         nAhead = 5
         y = np.array(range(n)) + np.random.normal(0, .1, n)
@@ -74,8 +70,7 @@ class TestDLM(TestCase):
 
     def test_dlm_uni_df_forecast(self):
         c = dlm_uni_df(
-                F=lego.E2(2), G=lego.J(2), V=1, 
-                delta=.95)
+                F=lego.E2(2), G=lego.J(2), delta=.95)
         n = 30
         nAhead = 5
         y = np.array(range(n)) + np.random.normal(0, .1, n)
