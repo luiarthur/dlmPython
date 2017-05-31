@@ -7,15 +7,22 @@ DLMs in Python see West &amp; Harrison 1997
 To install, the following command in a terminal:
 
 ```bash
-pip install git+git://github.com/luiarthur/dlmPython
+pip install git+https://github.com/luiarthur/dlmPython
+```
+
+To install locally,
+
+```bash
+pip install --user git+https://github.com/luiarthur/dlmPython
 ```
 
 After the first install, the library can be updated by using the
 previous command and appending `--upgrade`, as follows:
 
 ```bash
-pip install git+git://github.com/luiarthur/dlmPython --upgrade
+pip install git+https://github.com/luiarthur/dlmPython --upgrade
 ```
+
 
 
 # Demo
