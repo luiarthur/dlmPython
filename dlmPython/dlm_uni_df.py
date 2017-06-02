@@ -117,3 +117,12 @@ class dlm_uni_df(dlm):
 
         return {'lower': lower, 'upper': upper}
 
+    def draw_forecast(self, f, Q, n, num_draws):
+        """
+        f:         forecast mean parameter (float)
+        Q:         forecast scale parameter (float)
+        n:         number of samples trained from so far (int)
+        num_draws: number of draws (int)
+        """
+        return t_dist(df=n-1).rvs(num_draws)
+
