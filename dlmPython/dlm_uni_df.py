@@ -124,5 +124,5 @@ class dlm_uni_df(dlm):
         n:         number of samples trained from so far (int)
         num_draws: number of draws (int)
         """
-        return t_dist(df=n-1).rvs(num_draws)
+        return t_dist(df=n-1).rvs(num_draws) * np.sqrt(Q) + f
 
