@@ -112,6 +112,9 @@ plt.xlabel('time')
 legend = plt.legend(loc='lower right')
 plt.show()
 #plt.savefig('img/linear.png')
+
+### Get 100 draws from the forecast distribution
+c.draw_forecast(fc_f[-1], fc_Q[-1], fc_n[-1], 100)
 ```
 
 ![Linear Trend DLM](img/linear.png)
