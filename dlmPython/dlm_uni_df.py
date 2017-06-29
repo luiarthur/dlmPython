@@ -65,6 +65,7 @@ class dlm_uni_df(dlm):
         Gt = G.transpose()
         Ft = np.asmatrix(self.F)
         F = Ft.transpose()
+        p = np.sum(self.dim)
 
         for i in xrange(N):
             prev = out[i-1] if i > 0 else init
@@ -78,7 +79,7 @@ class dlm_uni_df(dlm):
             S = prev.S + prev.S / n * (e*e / Q - 1)
             A = R * F / Q
             m = a + A*e
-            C = S / prev.S * (R - A*A.transpose() * Q)
+            C = S / prev.S * (R - A*A.transpose() * Q) + eye(p) * 1E-6
 
             out[i] = param_uni_df(m=m,C=C,a=a,R=R,f=f,Q=Q,n=n,S=S)
 
