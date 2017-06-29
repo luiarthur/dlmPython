@@ -84,7 +84,7 @@ class dlm_uni_df(dlm):
 
         return out
 
-    def forecast(self, filt, nAhead=1, use_first_W=False):
+    def forecast(self, filt, nAhead=1, linear_decay=False):
 
         last_param = filt[-1]
         init = (last_param.m, last_param.C, 
@@ -102,10 +102,13 @@ class dlm_uni_df(dlm):
             (prev_a, prev_R, prev_f, prev_Q) = prev
             a = G * prev_a
 
-            if use_first_W:
+            # See W&H 6.3.3 (Practical discounting strategy for k-step ahead forecasts)
+            if linear_decay:
                 if W is None:
+                    # linear decay of information
                     W = self.__compute_W__(prev_R)
             else:
+                # Exponential decay of information
                 W = self.__compute_W__(prev_R)
 
             R = G * prev_R * Gt + W
