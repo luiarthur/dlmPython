@@ -38,17 +38,23 @@ class dlm_uni_df(dlm):
         delta = join(self.delta, other.delta)
         return dlm_uni_df(F=F, G=G, dim=dim, delta=delta)
 
+    def block(M, i):
+        return M[self.dim_lower[i]:self.dim_upper[i],
+                 self.dim_lower[i]:self.dim_upper[i]] 
+
     # Compute W matrix based on previous C matrix
     def __compute_W__(self, prev_C):
         if self.num_components > 1:
             W_list = [None] * self.num_components
             ###        see section 6.3.2 (Component discounting)
             ###        of W&H.
-            for i in xrange(self.num_components):
-                Gi = self.G[self.dim_lower[i]:self.dim_upper[i],
-                            self.dim_lower[i]:self.dim_upper[i]]
-                prev_Ci = prev_C[self.dim_lower[i]:self.dim_upper[i],
-                                 self.dim_lower[i]:self.dim_upper[i]]
+            for i in range(self.num_components):
+                Gi = block(self.G, i)
+                prev_Ci = block(prev_C, i)
+                #Gi = self.G[self.dim_lower[i]:self.dim_upper[i],
+                #            self.dim_lower[i]:self.dim_upper[i]]
+                #prev_Ci = prev_C[self.dim_lower[i]:self.dim_upper[i],
+                #                 self.dim_lower[i]:self.dim_upper[i]]
                 W_list[i] = self.df[i] * Gi * prev_Ci * Gi.transpose()
 
             print Gi
