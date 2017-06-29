@@ -56,6 +56,7 @@ class dlm_uni_df(dlm):
             return reduce(lambda a,b: block_diag(a,b), 
                     W_list, np.eye(0))
         else:
+            print "hi"
             return self.df[0] * self.G * prev_C * self.G.transpose()
 
     ### FIXME ###
