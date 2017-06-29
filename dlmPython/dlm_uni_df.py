@@ -20,7 +20,7 @@ class dlm_uni_df(dlm):
         cum_dim = np.insert(np.cumsum(dim), 0, 0)
         self.cum_dim = cum_dim
         self.dim_lower = cum_dim[:-1]
-        self.dim_upper = cum_dim[1:]
+        self.dim_upper = cum_dim[1:] - 1
         # Discount Factor 
         delta_arr = delta if type(delta) is np.ndarray else np.array([delta])
         self.df = map(lambda d: (1-d) / d, delta_arr)
@@ -42,11 +42,8 @@ class dlm_uni_df(dlm):
     def __compute_W__(self, prev_C):
         if self.num_components > 1:
             W_list = [None] * self.num_components
-
-            ### FIXME: Something must be wrong here... 
             ###        see section 6.3.2 (Component discounting)
             ###        of W&H.
-            print "CHECK ME: __compute_W__ in dlm_unif_df.py"
             for i in xrange(self.num_components):
                 Gi = self.G[self.dim_lower[i]:self.dim_upper[i],
                             self.dim_lower[i]:self.dim_upper[i]]
