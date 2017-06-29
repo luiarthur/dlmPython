@@ -38,12 +38,13 @@ class dlm_uni_df(dlm):
         delta = join(self.delta, other.delta)
         return dlm_uni_df(F=F, G=G, dim=dim, delta=delta)
 
-    def block(M, i):
-        return M[self.dim_lower[i]:self.dim_upper[i],
-                 self.dim_lower[i]:self.dim_upper[i]] 
 
     # Compute W matrix based on previous C matrix
     def __compute_W__(self, prev_C):
+        def block(self, M, i):
+            return M[self.dim_lower[i]:self.dim_upper[i],
+                     self.dim_lower[i]:self.dim_upper[i]] 
+
         if self.num_components > 1:
             W_list = [None] * self.num_components
             ###        see section 6.3.2 (Component discounting)
