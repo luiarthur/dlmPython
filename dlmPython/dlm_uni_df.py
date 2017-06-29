@@ -41,7 +41,7 @@ class dlm_uni_df(dlm):
 
     # Compute W matrix based on previous C matrix
     def __compute_W__(self, prev_C):
-        def block(self, M, i):
+        def block(M, i):
             return M[self.dim_lower[i]:self.dim_upper[i],
                      self.dim_lower[i]:self.dim_upper[i]] 
 
