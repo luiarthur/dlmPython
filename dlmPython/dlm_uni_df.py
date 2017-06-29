@@ -20,7 +20,7 @@ class dlm_uni_df(dlm):
         cum_dim = np.insert(np.cumsum(self.dim), 0, 0)
         self.cum_dim = cum_dim
         self.dim_lower = cum_dim[:-1]
-        self.dim_upper = cum_dim[1:] - 1
+        self.dim_upper = cum_dim[1:]
         # Discount Factor 
         delta_arr = delta if type(delta) is np.ndarray else np.array([delta])
         self.df = map(lambda d: (1-d) / d, delta_arr)
