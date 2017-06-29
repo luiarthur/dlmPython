@@ -46,6 +46,7 @@ class dlm_uni_df(dlm):
             ### FIXME: Something must be wrong here... 
             ###        see section 6.3.2 (Component discounting)
             ###        of W&H.
+            print "CHECK ME: __compute_W__ in dlm_unif_df.py"
             for i in xrange(self.num_components):
                 Gi = self.G[self.dim_lower[i]:self.dim_upper[i],
                             self.dim_lower[i]:self.dim_upper[i]]
@@ -56,7 +57,6 @@ class dlm_uni_df(dlm):
             return reduce(lambda a,b: block_diag(a,b), 
                     W_list, np.eye(0))
         else:
-            print "hi"
             return self.df[0] * self.G * prev_C * self.G.transpose()
 
     ### FIXME ###
