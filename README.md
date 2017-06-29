@@ -20,7 +20,7 @@ After the first install, the library can be updated by using the
 previous command and appending `--upgrade`, as follows:
 
 ```bash
-pip install git+https://github.com/luiarthur/dlmPython --upgrade
+pip install --user git+https://github.com/luiarthur/dlmPython --upgrade
 ```
 
 
