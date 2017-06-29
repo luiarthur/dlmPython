@@ -17,7 +17,7 @@ class dlm_uni_df(dlm):
         self.num = num
         self.num_components = 1 if type(p) in num else len(p)
         #
-        cum_dim = np.insert(np.cumsum(dim), 0, 0)
+        cum_dim = np.insert(np.cumsum(self.dim), 0, 0)
         self.cum_dim = cum_dim
         self.dim_lower = cum_dim[:-1]
         self.dim_upper = cum_dim[1:] - 1
