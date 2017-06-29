@@ -40,17 +40,20 @@ class dlm_uni_df(dlm):
 
     # Compute W matrix based on previous C matrix
     def __compute_W__(self, prev_C):
-        W_list = [None] * self.num_components
+        if self.num_components > 1:
+            W_list = [None] * self.num_components
 
-        for i in xrange(self.num_components):
-            Gi = self.G[self.dim_lower[i]:self.dim_upper[i],
-                        self.dim_lower[i]:self.dim_upper[i]]
-            prev_Ci = prev_C[self.dim_lower[i]:self.dim_upper[i],
-                             self.dim_lower[i]:self.dim_upper[i]]
-            W_list[i] = self.df[i] * Gi * prev_Ci * Gi.transpose()
+            for i in xrange(self.num_components):
+                Gi = self.G[self.dim_lower[i]:self.dim_upper[i],
+                            self.dim_lower[i]:self.dim_upper[i]]
+                prev_Ci = prev_C[self.dim_lower[i]:self.dim_upper[i],
+                                 self.dim_lower[i]:self.dim_upper[i]]
+                W_list[i] = self.df[i] * Gi * prev_Ci * Gi.transpose()
 
-        return reduce(lambda a,b: block_diag(a,b), 
-                W_list, np.eye(0))
+            return reduce(lambda a,b: block_diag(a,b), 
+                    W_list, np.eye(0))
+        else:
+            return self.df[i] * self.G * prevC * self.G.transpose()
 
     ### FIXME ###
     def filter(self, y, init):
