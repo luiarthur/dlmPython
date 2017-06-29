@@ -58,7 +58,7 @@ class dlm_uni_df(dlm):
 
     ### FIXME ###
     def filter(self, y, init):
-        W = self.__compute_W__(np.eye(self.G.shape[0]))
+        #W = self.__compute_W__(np.eye(self.G.shape[0]))
         N = len(y)
         out = [init]*N
         G = self.G
