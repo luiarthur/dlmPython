@@ -43,6 +43,9 @@ class dlm_uni_df(dlm):
         if self.num_components > 1:
             W_list = [None] * self.num_components
 
+            ### FIXME: Something must be wrong here... 
+            ###        see section 6.3.2 (Component discounting)
+            ###        of W&H.
             for i in xrange(self.num_components):
                 Gi = self.G[self.dim_lower[i]:self.dim_upper[i],
                             self.dim_lower[i]:self.dim_upper[i]]
