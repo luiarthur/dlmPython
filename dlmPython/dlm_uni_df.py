@@ -51,11 +51,12 @@ class dlm_uni_df(dlm):
                                  self.dim_lower[i]:self.dim_upper[i]]
                 W_list[i] = self.df[i] * Gi * prev_Ci * Gi.transpose()
 
-            return reduce(lambda a,b: block_diag(a,b), 
-                    W_list, np.eye(0))
-        else:
             print self.G
             print prev_C
+            print  reduce(lambda a,b: block_diag(a,b), W_list, np.eye(0))
+
+            return reduce(lambda a,b: block_diag(a,b), W_list, np.eye(0))
+        else:
             return self.df[0] * self.G * prev_C * self.G.transpose()
 
     ### FIXME ###
