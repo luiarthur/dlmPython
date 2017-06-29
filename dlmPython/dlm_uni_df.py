@@ -84,7 +84,7 @@ class dlm_uni_df(dlm):
 
         return out
 
-    def forecast(self, filt, nAhead=1):
+    def forecast(self, filt, nAhead=1, use_first_W=False):
 
         last_param = filt[-1]
         init = (last_param.m, last_param.C, 
@@ -94,13 +94,21 @@ class dlm_uni_df(dlm):
         Gt = G.transpose()
         Ft = np.asmatrix(self.F)
         F = Ft.transpose()
+        W = None
 
         out = [None] * nAhead
         for i in xrange(nAhead):
             prev = out[i-1] if i > 0 else init
             (prev_a, prev_R, prev_f, prev_Q) = prev
             a = G * prev_a
-            R = G * prev_R * Gt + self.__compute_W__(prev_R)
+
+            if use_first_W:
+                if W is None:
+                    W = self.__compute_W__(prev_R)
+            else:
+                W = self.__compute_W__(prev_R)
+
+            R = G * prev_R * Gt + W
             f = Ft * a
             Q = Ft * R * F + last_param.S
             out[i] = (a, R, f, Q)
