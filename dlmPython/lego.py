@@ -22,15 +22,14 @@ def J(p, lam=1):
 
 
 def join(a, b):
-    num = [int, float]
+    num = [int, float, type(None)]
     
     if type(a) == np.ndarray and a.size == 0:
         return np.array(b)
     elif type(b) == np.ndarray and b.size == 0:
         return np.array(a)
     elif type(a) == type(b) == np.ndarray:
-         #return np.concatenate((a, b), axis=0)
-         return np.hstack((a, b))
+         return np.concatenate((a, b), axis=0)
     elif type(a) in num and type(b) in num:
         return np.array([a, b])
     elif type(a) in num and type(b) == np.ndarray:
