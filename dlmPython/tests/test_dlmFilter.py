@@ -14,21 +14,21 @@ class TestDLM(TestCase):
         np.testing.assert_equal(lego.join(1.,1.), np.array([1,1]))
 
         np.testing.assert_equal(
-            lego.join(lego.E2(3), lego.E2(3)),
+            lego.join(lego.E(3), lego.E(3)),
                       np.array([1, 0, 0, 1, 0, 0]))
 
         np.testing.assert_equal(
-            lego.join(lego.E2(3), 1),
+            lego.join(lego.E(3), 1),
                       np.array([1, 0, 0, 1]))
 
         np.testing.assert_equal(
-            lego.join(1, lego.E2(3)),
+            lego.join(1, lego.E(3)),
                       np.array([1, 1, 0, 0]))
 
 
     def test_dlm_add(self):
-        dlm1 = dlm_uni_df(lego.E2(3), lego.J(3), delta=1)
-        dlm2 = dlm_uni_df(lego.E2(3), lego.J(3), delta=1)
+        dlm1 = dlm_uni_df(lego.E(3), lego.J(3), delta=1)
+        dlm2 = dlm_uni_df(lego.E(3), lego.J(3), delta=1)
         dlm3 = dlm1 + dlm2
 
         # Test F
@@ -56,7 +56,7 @@ class TestDLM(TestCase):
     # LINEAR TREND
     def test_dlm_uni_df_filter(self):
         c = dlm_uni_df(
-                F=lego.E2(2), G=lego.J(2), delta=.95)
+                F=lego.E(2), G=lego.J(2), delta=.95)
         n = 30
         nAhead = 5
         y = np.array(range(n)) + np.random.normal(0, .1, n)
@@ -70,7 +70,7 @@ class TestDLM(TestCase):
 
     def test_dlm_uni_df_forecast(self):
         c = dlm_uni_df(
-                F=lego.E2(2), G=lego.J(2), delta=.95)
+                F=lego.E(2), G=lego.J(2), delta=.95)
         n = 30
         nAhead = 5
         y = np.array(range(n)) + np.random.normal(0, .1, n)
