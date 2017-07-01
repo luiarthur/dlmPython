@@ -147,10 +147,19 @@ class dlm_uni(dlm):
         assert len(f) == len(Q), "required: len(f) == len(Q)"
 
         len_f = len(f)
+        lower = [None] * len(_f)
+        upper = [None] * len(_f)
+        num_std = norm.ppf(1 - alpha/2)
 
-        num_std = t_dist(df=n[i]-1).ppf(1 - alpha/2) if self.V is None else norm.ppf(1 - alpha/2)
+        for i in range(len_f):
 
-        lower = [f[i] - np.sqrt(Q[i]) * num_std for i in range(len_f)]
+            if self.V is None:
+                num_std = t_dist(df=n[i]-1).ppf(1 - alpha/2)
+
+            lower[i] = f[i] - np.sqrt(Q[i]) * num_std
+            upper[i] = f[i] + np.sqrt(Q[i]) * num_std
+
+        lower = [ for i in range(len_f)]
         upper = [f[i] + np.sqrt(Q[i]) * num_std for i in range(len_f)]
 
         return {'lower': lower, 'upper': upper}
