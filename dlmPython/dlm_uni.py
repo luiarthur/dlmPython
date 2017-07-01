@@ -120,6 +120,7 @@ class dlm_uni(dlm):
         W = self.__compute_W__(last_param.C)
 
         out = [None] * nAhead
+        # TODO: Try Corollary 4.1, 4.2 of W&H
         for i in xrange(nAhead):
             prev = out[i-1] if i > 0 else init
             (prev_a, prev_R, prev_f, prev_Q) = prev
