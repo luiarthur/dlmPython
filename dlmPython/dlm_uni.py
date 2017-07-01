@@ -159,9 +159,6 @@ class dlm_uni(dlm):
             lower[i] = f[i] - np.sqrt(Q[i]) * num_std
             upper[i] = f[i] + np.sqrt(Q[i]) * num_std
 
-        lower = [ for i in range(len_f)]
-        upper = [f[i] + np.sqrt(Q[i]) * num_std for i in range(len_f)]
-
         return {'lower': lower, 'upper': upper}
 
     def draw_forecast(self, f, Q, n, num_draws):
