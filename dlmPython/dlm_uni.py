@@ -147,8 +147,8 @@ class dlm_uni(dlm):
         assert len(f) == len(Q), "required: len(f) == len(Q)"
 
         len_f = len(f)
-        lower = [None] * len(_f)
-        upper = [None] * len(_f)
+        lower = [None] * len_f
+        upper = [None] * len_f
         num_std = norm.ppf(1 - alpha/2)
 
         for i in range(len_f):
