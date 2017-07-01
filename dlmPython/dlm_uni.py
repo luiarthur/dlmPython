@@ -117,7 +117,7 @@ class dlm_uni(dlm):
         Gt = G.transpose()
         Ft = np.asmatrix(self.F)
         F = Ft.transpose()
-        W = None
+        W = self.__compute_W__(last_param.C)
 
         out = [None] * nAhead
         for i in xrange(nAhead):
@@ -126,11 +126,7 @@ class dlm_uni(dlm):
             a = G * prev_a
 
             # See W&H 6.3.3 (Practical discounting strategy for k-step ahead forecasts)
-            if linear_decay:
-                if W is None:
-                    # linear decay of information
-                    W = self.__compute_W__(prev_R)
-            else:
+            if not linear_decay:
                 # Exponential decay of information
                 W = self.__compute_W__(prev_R)
 
