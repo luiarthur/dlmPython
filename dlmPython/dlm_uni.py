@@ -161,7 +161,7 @@ class dlm_uni(dlm):
     def draw_forecast(self, f, Q, n, num_draws):
         """
         f:         forecast mean parameter (float)
-        Q:         forecast scale parameter (float)
+        Q:         forecast squared scale parameter (float)
         n:         number of samples trained from so far (int)
         num_draws: number of draws (int)
         """
@@ -176,4 +176,9 @@ class dlm_uni(dlm):
     def back_sample(self):
         pass
 
-
+    def ffbs(self, y, init):
+        """
+        ffbs (Forward filtering Backwards Sampling)
+        """
+        assert V is not None, "ffbs can only be used for conditionally Normal models!"
+        pass
