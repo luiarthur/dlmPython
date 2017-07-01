@@ -5,6 +5,7 @@ from scipy.linalg import block_diag
 from scipy.stats import t as t_dist
 from scipy.stats import norm
 import numpy as np
+from numpy.linalg import inv
 
 class dlm_uni(dlm):
 
@@ -170,12 +171,31 @@ class dlm_uni(dlm):
         else:
             return np.random.randn(num_draws) * np.sqrt(Q) + f
 
-    def smooth(self):
-        pass
+    ## TODO: Check this
+    def smooth(self, filt):
+        T = len(filt)
+        a = [None] * T
+        R = [None] * T
+        last_idx = T-1
 
+        for t in xrange(T):
+
+            if t == last_idx:
+                (prev_a, prev_R) = (filt[-1].m, filt[-1].R)
+            else:
+                (prev_a, prev_R) = (a[t-T], R[t-T])
+
+            Bt = filt[t].C * self.G.transpose() * inv(filt[t+1].R)
+            a[t-T] = filt[t].m + Bt * (a[t-T+1] - filt[t+1].a)
+            R[t-T] = filt[t].C - Bt * (filt[t+1].R - R[t-T+1])
+
+        return {'a': a, 'R': R}
+
+    # TODO:
     def back_sample(self):
         pass
 
+    # TODO:
     def ffbs(self, y, init):
         """
         ffbs (Forward filtering Backwards Sampling)
