@@ -114,3 +114,9 @@ class TestDLM(TestCase):
         print 'at n:    ' + (y[-1] + 5).__str__()
         print 'predict: ' + fc['f'][-1].__str__()
 
+        sm = dlm.smooth(filt)
+        #print 'smooth a: ', sm['a']
+        #print 'smooth R: ', sm['R']
+
+        sm_f = map(lambda a: (np.asmatrix(dlm.F) * a)[0,0], sm['a'])
+        print sm_f    

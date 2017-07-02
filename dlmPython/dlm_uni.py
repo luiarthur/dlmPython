@@ -176,18 +176,18 @@ class dlm_uni(dlm):
         T = len(filt)
         a = [None] * T
         R = [None] * T
-        last_idx = T-1
+        last_idx = xrange(T)[-1]
 
-        for t in xrange(T):
+        for t in reversed(xrange(T)):
 
             if t == last_idx:
-                (prev_a, prev_R) = (filt[-1].m, filt[-1].R)
+                a[t] = filt[-1].m
+                R[t] = filt[-1].C
             else:
                 (prev_a, prev_R) = (a[t-T], R[t-T])
-
-            Bt = filt[t].C * self.G.transpose() * inv(filt[t+1].R)
-            a[t-T] = filt[t].m + Bt * (a[t-T+1] - filt[t+1].a)
-            R[t-T] = filt[t].C - Bt * (filt[t+1].R - R[t-T+1])
+                Bt = filt[t].C * self.G.transpose() * inv(filt[t+1].R)
+                a[t-T] = filt[t].m + Bt * (a[t-T+1] - filt[t+1].a)
+                R[t-T] = filt[t].C - Bt * (filt[t+1].R - R[t-T+1]) * Bt.transpose()
 
         return {'a': a, 'R': R}
 
