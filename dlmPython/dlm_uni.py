@@ -79,7 +79,7 @@ class dlm_uni(dlm):
             if d[i] is None:
                 W_list[i] = self.__get_block__(self.W, i)
             else:
-                W_list[i] = (1-d[i]) / d[i] * Gi * prev_Ci * Gi.transpose()
+                W_list[i] = (1-d[i]) / d[i] * Gi * prev_Ci * Gi.T
 
         return reduce(lambda a,b: block_diag(a,b), W_list, np.eye(0))
 
@@ -87,9 +87,9 @@ class dlm_uni(dlm):
         N = len(y)
         out = [init]*N
         G = self.G
-        Gt = G.transpose()
+        Gt = G.T
         Ft = np.asmatrix(self.F)
-        F = Ft.transpose()
+        F = Ft.T
 
         for i in xrange(N):
             prev = out[i-1] if i > 0 else init
@@ -103,7 +103,7 @@ class dlm_uni(dlm):
             S = prev.S + prev.S / n * (e*e / Q - 1) if self.V is None else self.V
             A = R * F / Q
             m = a + A*e
-            C = S / prev.S * (R - A*A.transpose() * Q)
+            C = S / prev.S * (R - A*A.T * Q)
 
             out[i] = param_uni(m=m,C=C,a=a,R=R,f=f,Q=Q,n=n,S=S)
 
@@ -115,9 +115,9 @@ class dlm_uni(dlm):
                 last_param.f, last_param.Q)
 
         G = self.G
-        Gt = G.transpose()
+        Gt = G.T
         Ft = np.asmatrix(self.F)
-        F = Ft.transpose()
+        F = Ft.T
         W = self.__compute_W__(last_param.C)
 
         out = [None] * nAhead
@@ -171,34 +171,32 @@ class dlm_uni(dlm):
         else:
             return np.random.randn(num_draws) * np.sqrt(Q) + f
 
-    ## TODO: Check this
-    def smooth(self, filt):
-        T = len(filt)
-        a = [None] * T
-        R = [None] * T
-        last_idx = xrange(T)[-1]
-
-        for t in reversed(xrange(T)):
-
-            if t == last_idx:
-                a[t] = filt[-1].m
-                R[t] = filt[-1].C
-            else:
-                (prev_a, prev_R) = (a[t-T], R[t-T])
-                Bt = filt[t].C * self.G.transpose() * inv(filt[t+1].R)
-                a[t-T] = filt[t].m + Bt * (a[t-T+1] - filt[t+1].a)
-                R[t-T] = filt[t].C - Bt * (filt[t+1].R - R[t-T+1]) * Bt.transpose()
-
-        return {'a': a, 'R': R}
-
-    # TODO:
-    def back_sample(self):
-        pass
-
     # TODO:
     def ffbs(self, y, init):
         """
         ffbs (Forward filtering Backwards Sampling)
         """
-        assert V is not None, "ffbs can only be used for conditionally Normal models!"
-        pass
+        assert self.V is not None, "ffbs can only be used for conditionally Normal models!"
+
+        filt = self.filter(y, init)
+        p = self.p
+        N = len(y)
+        theta = np.zeros((N, p))
+
+        for t in reversed( xrange(N) ):
+
+            if t == N-1:
+                ht = np.asarray(filt[t].m).flatten()
+                Ht = filt[t].C
+                theta[t,:] = np.random.multivariate_normal(ht, Ht)
+            else:
+                Ct = filt[t].C
+                Gt_next = self.G
+                Rt_next = filt[t+1].R
+                Bt = Ct * Gt_next.T * inv(Rt_next)
+                at_next = filt[t+1].a
+                ht = np.asarray(filt[t].m + Bt * Rt_next * (np.asmatrix(theta[t+1, :]).T - at_next)).flatten()
+                Ht = Ct - Bt * Rt_next * Bt.T
+                theta[t, :] = np.random.multivariate_normal(ht, Ht)
+
+        return theta
