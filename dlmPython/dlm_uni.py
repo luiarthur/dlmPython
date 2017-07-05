@@ -101,9 +101,11 @@ class dlm_uni(dlm):
             Q = np.asscalar(Ft * R * F) + prev.S
 
             if Q < 0:
+                print i
                 print W
                 print R
                 print prev.S
+                print Q
 
             assert Q >= 0, "Q cannot be negative!"
 
