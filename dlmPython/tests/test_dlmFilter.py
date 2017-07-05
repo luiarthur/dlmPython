@@ -145,6 +145,9 @@ class TestDLM(TestCase):
         #y = inv_logit(np.linspace(-10, 10, n)) + np.random.normal(0, .01, n)
         y = inv_logit(np.linspace(-10, 10, n))
 
+        plt.plot(y)
+        plt.show()
+
         init = param.uni(
                 m=np.asmatrix(np.zeros((dlm.p,1))), 
                 C=np.eye(dlm.p))
