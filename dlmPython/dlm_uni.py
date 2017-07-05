@@ -108,17 +108,17 @@ class dlm_uni(dlm):
             if Q < 0:
                 print "i:"
                 print i
-                print "W"
+                print "W:"
                 print W
-                print "R"
+                print "R:"
                 print R
-                print "S_prev"
+                print "S_prev:"
                 print prev.S
-                print "S"
+                print "S:"
                 print S
-                print "Q"
+                print "Q:"
                 print Q
-                print "C"
+                print "C:"
                 print C
 
             assert Q >= 0, "Q cannot be negative!"
