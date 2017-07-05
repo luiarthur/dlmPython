@@ -131,3 +131,53 @@ class TestDLM(TestCase):
         #print 'smooth a: ', sm['a']
         #print 'smooth R: ', sm['R']
 
+    def test_dlm_uni_forecast3(self):
+        def inv_logit(x):
+            return 1 / (1 + np.exp(-x))
+
+        #dlm = dlm_mod.poly(1, discount=.5)
+        dlm = dlm_mod.poly(1, discount=.99)
+        print dlm
+
+        n = 6984
+        nAhead = 1000
+
+        #y = inv_logit(np.linspace(-10, 10, n)) + np.random.normal(0, .01, n)
+        y = inv_logit(np.linspace(-10, 10, n))
+
+        init = param.uni(
+                m=np.asmatrix(np.zeros((dlm.p,1))), 
+                C=np.eye(dlm.p))
+        filt = dlm.filter(y, init)
+
+        one_step_f = map(lambda x: x.f, filt)
+        one_step_Q = map(lambda x: x.Q, filt)
+        one_step_n = map(lambda x: x.n, filt)
+        # credible intervals for predictions
+        ci_one_step = dlm.get_ci(one_step_f, one_step_Q, one_step_n)
+
+        fc = dlm.forecast(filt, nAhead, linear_decay=True)
+        #ci = dlm.get_ci(fc['f'], [fc['Q'][0]]*nAhead, [fc['n']]*nAhead)
+        ci = dlm.get_ci(fc['f'], fc['Q'], [fc['n']]*nAhead)
+
+        future_idx = np.linspace(n, n+nAhead, nAhead)
+        idx = np.arange(n)
+        
+        ### PLOT RESULT
+        plt.fill_between(range(n), ci_one_step['lower'], ci_one_step['upper'], color='lightblue')
+        plt.fill_between(future_idx, ci['lower'], ci['upper'], color='pink')
+
+        #plt.plot(range(n), y[:n], color='grey', label='Data')
+        plt.scatter(range(n), y[:n], color='grey', label='Data', s=15)
+        plt.plot(future_idx, fc['f'], 'r--', label='Forecast')
+        plt.plot(range(n), one_step_f, 'b--', label='One-step-Ahead')
+
+        plt.xlabel('time')
+        #legend = plt.legend(loc='lower right')
+        plt.ylim([
+          min(ci['lower'][100:]+ci_one_step['lower'][100:]),
+          max(ci['upper'][100:]+ci_one_step['upper'][100:])
+          ])
+        plt.show()
+
+

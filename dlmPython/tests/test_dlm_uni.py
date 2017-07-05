@@ -27,8 +27,18 @@ class Test_dlm_uni(TestCase):
 
 
     def test_mod_poly(self):
-        dlm_mod.poly(2, 3)
-        dlm_mod.poly(2, 3, discount=1)
+        dlm1 = dlm_mod.poly(1,V=3)
+        dlm2 = dlm_mod.poly(2, V=3, discount=1)
+        dlm3 = dlm_uni(lego.E(4), lego.J(4)*2, V=2)
+        dlm = dlm1 + dlm2 + dlm3
+
+        # Test get_block
+        np.testing.assert_equal(
+                dlm.__get_block__(dlm.G, 0),
+                lego.J(2))
+        np.testing.assert_equal(
+                dlm.__get_block__(dlm.G, 2),
+                2*lego.J(4))
 
 
     def test_dlm_add(self):

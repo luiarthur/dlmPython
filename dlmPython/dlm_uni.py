@@ -120,6 +120,8 @@ class dlm_uni(dlm):
                 print Q
                 print "C:"
                 print C
+                print "discount:"
+                print self.discount
 
             assert Q >= 0, "Q cannot be negative!"
 
