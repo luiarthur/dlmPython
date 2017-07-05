@@ -97,8 +97,8 @@ class dlm_uni(dlm):
             W = self.__compute_W__(prev.C)
             a = G * prev.m
             R = G * prev.C * Gt + W
-            f = (Ft * a)[0,0]
-            Q = (Ft * R * F + prev.S)[0,0]
+            f = np.asscalar(Ft * a)
+            Q = np.asscalar(Ft * R * F + prev.S)
             e = y[i] - f
             S = prev.S + prev.S / n * (e*e / Q - 1) if self.V is None else self.V
             A = R * F / Q
@@ -137,8 +137,8 @@ class dlm_uni(dlm):
             Q = Ft * R * F + last_param.S
             out[i] = (a, R, f, Q)
             
-        out_f = map(lambda x: x[2][0,0], out)
-        out_Q = map(lambda x: x[3][0,0], out)
+        out_f = map(lambda x: np.asscalar(x[2]), out)
+        out_Q = map(lambda x: np.asscalar(x[3]), out)
         return {'f': out_f, 'Q': out_Q, 'n': last_param.n}
 
     def get_ci(self, f, Q, n, alpha=.05):
