@@ -99,7 +99,14 @@ class dlm_uni(dlm):
             R = G * prev.C * Gt + W
             f = np.asscalar(Ft * a)
             Q = np.asscalar(Ft * R * F) + prev.S
+
+            if Q < 0:
+                print W
+                print R
+                print prev.S
+
             assert Q >= 0, "Q cannot be negative!"
+
             e = y[i] - f
             S = (prev.S + prev.S / n * (e*e / Q - 1)) if self.V is None else self.V
             A = R * F / Q
