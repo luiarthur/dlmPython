@@ -34,10 +34,11 @@ def arma(ar=[], ma=[], tau2=1, V=None):
 def poly(order=1, V=None, W=None, discount=None):
     """
     Polynomial trend component for DLM
-    - order: order 1 polynomial => linear forecast function
+    - order: order 0 polynomial => mean forecast function (random walk model)
+             order 1 polynomial => linear forecast function
              order 2 polynomial => quadratic forecast function
     """
-    assert order >= 1, "order needs to be > 1"
+    assert order >= 0, "order needs to be > 0"
     p = order + 1
     return dlm_uni(F=E(p), G=J(p), V=V, W=W, discount=discount)
 

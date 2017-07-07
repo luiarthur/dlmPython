@@ -99,7 +99,7 @@ class TestDLM(TestCase):
         print 'predict: ' + fc['f'][-1].__str__()
 
     def test_dlm_uni_forecast2(self):
-        dlm = dlm_mod.poly(1, discount=.95, V=1) + dlm_mod.arma([.95,.04], V=1)
+        dlm = dlm_mod.poly(1, discount=.95, V=1) + dlm_mod.arma([.95,.04], V=1) + dlm_mod.poly(order=0, V=3)
         print dlm
         n = 30
         nAhead = 5
