@@ -94,6 +94,8 @@ class dlm_uni(dlm):
         Gt = G.T
         Ft = np.asmatrix(self.F)
         F = Ft.T
+        if self.V is not None:
+            init.S = self.V
 
         for i in xrange(N):
             prev = out[i-1] if i > 0 else init
