@@ -143,7 +143,7 @@ class TestDLM(TestCase):
         nAhead = 1000
 
         #y = inv_logit(np.linspace(-10, 10, n)) + np.random.normal(0, .01, n)
-        y = inv_logit(np.linspace(-10, 10, n)) * .1
+        y = inv_logit(np.linspace(-10, 10, n))
 
         plt.plot(y)
         plt.show()
