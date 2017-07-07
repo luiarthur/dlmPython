@@ -136,11 +136,14 @@ class TestDLM(TestCase):
             return 1 / (1 + np.exp(-x))
 
         #dlm = dlm_mod.poly(1, discount=.5)
-        dlm = dlm_mod.poly(1, discount=.99)
+        #dlm = dlm_mod.poly(1, discount=.99)
+        dlm = dlm_mod.poly(1, discount=.9)
         print dlm
 
-        n = 6984
-        nAhead = 1000
+        #n = 6984
+        #nAhead = 1000
+        n = 100
+        nAhead = 100
 
         #y = inv_logit(np.linspace(-10, 10, n)) + np.random.normal(0, .01, n)
         y = inv_logit(np.linspace(-10, 10, n))
@@ -178,8 +181,8 @@ class TestDLM(TestCase):
         plt.xlabel('time')
         #legend = plt.legend(loc='lower right')
         plt.ylim([
-          min(ci['lower'][100:]+ci_one_step['lower'][100:]),
-          max(ci['upper'][100:]+ci_one_step['upper'][100:])
+          min(ci['lower'][10:]+ci_one_step['lower'][10:]),
+          max(ci['upper'][10:]+ci_one_step['upper'][10:])
           ])
         plt.show()
 
