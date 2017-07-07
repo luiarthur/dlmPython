@@ -108,7 +108,7 @@ class dlm_uni(dlm):
             m = a + A*e
             C = S / prev.S * (R - A*A.T * Q)
             if not is_pos_def(C):
-                C += np.eye(p) * 1E-10
+                C += np.eye(self.p) * 1E-10
 
             if Q < 0:
                 print "i:"
