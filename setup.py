@@ -8,7 +8,7 @@ setup(name='dlmPython',
       author_email='luiarthur@ucsc.edu',
       license='MIT',
       packages=['dlmPython'],
-      install_requires=[ 'numpy==1.8.0', 'scipy' ],
+      install_requires=[ 'numpy>=1.8.0', 'scipy' ],
       test_suite='nose.collector',
       tests_require=[ 'nose' ],
       zip_safe=False)
