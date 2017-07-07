@@ -7,6 +7,9 @@ from scipy.stats import norm
 import numpy as np
 from numpy.linalg import inv
 
+def is_pos_def(x):
+    return np.all(np.linalg.eigvals(x) > 0)
+
 class dlm_uni(dlm):
 
     def __init__(self, F, G, V=None, W=None, discount=None):
@@ -104,6 +107,8 @@ class dlm_uni(dlm):
             A = R * F / Q
             m = a + A*e
             C = S / prev.S * (R - A*A.T * Q)
+            if not is_pos_def(C):
+                C += np.eye(p) * 1E-10
 
             if Q < 0:
                 print "i:"
