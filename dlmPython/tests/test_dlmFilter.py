@@ -5,8 +5,6 @@ import numpy as np
 from scipy.linalg import block_diag
 import matplotlib.pyplot as plt
 
-np.random.seed(0)
-
 class TestDLM(TestCase):
 
     ### tests for concatenating delta and dim ###
