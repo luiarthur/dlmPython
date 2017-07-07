@@ -7,6 +7,8 @@ from scipy.stats import norm
 import numpy as np
 from numpy.linalg import inv
 
+np.random.seed(0)
+
 def is_pos_def(x):
     return np.all(np.linalg.eigvals(x) > 0)
 
