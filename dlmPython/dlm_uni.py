@@ -107,7 +107,7 @@ class dlm_uni(dlm):
             S = (prev.S + prev.S / n * (e*e / Q - 1)) if self.V is None else self.V
             A = R * F / Q
             m = a + A*e
-            C = (S / prev.S if not self.V is None else 1)* (R - A*A.T * Q)
+            C = (S / prev.S if self.V is None else 1)* (R - A*A.T * Q)
 
             if Q < 0:
                 print "i:"
