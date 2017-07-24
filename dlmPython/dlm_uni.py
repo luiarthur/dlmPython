@@ -87,6 +87,31 @@ class dlm_uni(dlm):
 
         return reduce(lambda a,b: block_diag(a,b), W_list, np.eye(0))
 
+
+    def onlineUpdate(self, y, prev):
+        G = self.G
+        Gt = G.T
+        Ft = np.asmatrix(self.F)
+        F = Ft.T
+        if self.V is not None:
+            init.S = self.V
+
+        n = prev.n + 1
+        W = self.__compute_W__(prev.C)
+        a = G * prev.m
+        R = G * prev.C * Gt + W
+        f = np.asscalar(Ft * a)
+        Q = np.asscalar(Ft * R * F) + prev.S
+        e = y - f
+        S = (prev.S + prev.S / n * (e*e / Q - 1)) if self.V is None else self.V
+        A = R * F / Q
+        m = a + A*e
+        C = ((S / prev.S) if self.V is None else 1)* (R - A*A.T * Q)
+        assert Q >= 0, "Q cannot be negative!"
+
+        return param_uni(m=m,C=C,a=a,R=R,f=f,Q=Q,n=n,S=S)
+
+
     def filter(self, y, init):
         N = len(y)
         out = [init]*N
