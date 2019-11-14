@@ -197,7 +197,7 @@ plt.show()
 # Info
 
 This package was structured following python's packaging
-guidelines[here][1].
+guidelines [here][1].
 
 
 [1]: https://python-packaging.readthedocs.io/en/latest/index.html
